@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.Persistence.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    [Migration("20230114164025_add_entity_to_database")]
+    [Migration("20230114174136_add_entity_to_database")]
     partial class addentitytodatabase
     {
         /// <inheritdoc />
@@ -25,31 +25,11 @@ namespace Bank.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Bank.Domain.Models.BaseEntity", b =>
+            modelBuilder.Entity("Bank.Domain.Models.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BaseEntity");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("BaseEntity");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("Bank.Domain.Models.Account", b =>
-                {
-                    b.HasBaseType("Bank.Domain.Models.BaseEntity");
 
                     b.Property<string>("AccountNo")
                         .IsRequired()
@@ -58,7 +38,16 @@ namespace Bank.Persistence.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsBlocked")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("LastActivty")
@@ -67,31 +56,57 @@ namespace Bank.Persistence.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.HasKey("Id");
+
                     b.HasIndex("UserId");
 
-                    b.HasDiscriminator().HasValue("Account");
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("Bank.Domain.Models.Role", b =>
                 {
-                    b.HasBaseType("Bank.Domain.Models.BaseEntity");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("Role");
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Bank.Domain.Models.Transaction", b =>
                 {
-                    b.HasBaseType("Bank.Domain.Models.BaseEntity");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("RecipientAccoundNo")
                         .IsRequired()
@@ -113,16 +128,26 @@ namespace Bank.Persistence.Migrations
                     b.Property<Guid>("SenderUserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.HasKey("Id");
+
                     b.HasIndex("RecipientAccountId");
 
                     b.HasIndex("RecipientrUserId");
 
-                    b.HasDiscriminator().HasValue("Transaction");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Bank.Domain.Models.User", b =>
                 {
-                    b.HasBaseType("Bank.Domain.Models.BaseEntity");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -133,6 +158,9 @@ namespace Bank.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -154,9 +182,11 @@ namespace Bank.Persistence.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.HasKey("Id");
+
                     b.HasIndex("RoleId");
 
-                    b.HasDiscriminator().HasValue("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Bank.Domain.Models.Account", b =>

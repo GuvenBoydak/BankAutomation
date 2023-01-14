@@ -6,7 +6,7 @@ namespace Bank.Persistence.Context;
 
 public class BankDbContext : DbContext
 {
-    public BankDbContext(DbContextOptions<BankDbContext> options) : base(options)
+    public BankDbContext(DbContextOptions options) : base(options)
     {
     }
 
@@ -21,6 +21,5 @@ public class BankDbContext : DbContext
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
-        modelBuilder.ApplyConfiguration(new BaseEntityConfiguration());
     }
 }

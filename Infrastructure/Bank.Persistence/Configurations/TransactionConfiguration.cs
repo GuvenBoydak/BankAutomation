@@ -29,10 +29,3 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .HasForeignKey(x => x.RecipientrUserId).OnDelete(DeleteBehavior.Restrict);
     }
 }
-public class BaseEntityConfiguration : IEntityTypeConfiguration<BaseEntity>
-{
-    public void Configure(EntityTypeBuilder<BaseEntity> builder)
-    {
-        builder.HasKey(x=>x.Id);
-    }
-}
