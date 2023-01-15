@@ -1,17 +1,14 @@
-﻿using System.Text.Json.Serialization;
-using MediatR;
+﻿namespace Bank.RabbitMQConsumer.Models;
 
-namespace Bank.Application.Features.Commands.Transactions.CreateTransaction;
-
-public class CreateTransactionCommand : IRequest
+public class TransactionDto
 {
+    public Guid Id { get; set; }
     public string SenderAccontNo { get; set; }
     public string RecipientAccoundNo { get; set; }
     public decimal Amount { get; set; }
     public string? Description { get; set; }
     public Guid SenderAccountId { get; set; }
     public Guid RecipientAccountId { get; set; }
-    //[JsonIgnore]
     public Guid SenderUserId { get; set; }
     public Guid RecipientrUserId { get; set; }
 }

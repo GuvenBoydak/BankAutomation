@@ -2,9 +2,12 @@
 using Bank.Application.Features.Commands.Roles.DeleteRole;
 using Bank.Application.Features.Commands.Roles.UpdateRole;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bank.API.Controllers;
+
+[Authorize("Admin")]
 [Route("api/[controller]")]
 [ApiController]
 public class RolesController:ControllerBase

@@ -1,3 +1,4 @@
+using Bank.API.Swagger;
 using Bank.Application.ServiceRegistration;
 using Bank.Infrastructure;
 using Bank.Persistence.ServiceRegistration;
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureService(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.SwaggerShemeServiceInjection();
 
 var app = builder.Build();
 

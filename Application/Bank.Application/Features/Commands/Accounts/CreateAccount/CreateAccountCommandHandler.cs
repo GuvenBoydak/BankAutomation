@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Bank.Application.Interfaces.Repositories;
 using Bank.Application.Interfaces.UnitOfWork;
 using Bank.Domain.Models;

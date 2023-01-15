@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
+using Bank.Application.DTOs;
+using Bank.Application.Features.Queries.Accounts.GetByIdAccount;
+using Bank.Application.Features.Queries.Transactions.GetByIdTransaction;
+using Bank.Application.Features.Queries.Users.GetByIdUser;
 using Bank.Application.Interfaces.Repositories;
 using Bank.Application.Interfaces.UnitOfWork;
+using Bank.Application.RabbitMQ;
 using Bank.Domain.Models;
 using MediatR;
 
@@ -10,16 +15,18 @@ public class CreateTransactionCommandHandler : AsyncRequestHandler<CreateTransac
 {
     private readonly ITransactionRepository _transactionRepository;
     private readonly IAccountRepository _accountRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
     public CreateTransactionCommandHandler(ITransactionRepository transactionRepository, IUnitOfWork unitOfWork,
-        IMapper mapper, IAccountRepository accountRepository)
+        IMapper mapper, IAccountRepository accountRepository, IUserRepository userRepository)
     {
         _transactionRepository = transactionRepository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _accountRepository = accountRepository;
+        _userRepository = userRepository;
     }
 
     protected override async Task Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -44,6 +51,8 @@ public class CreateTransactionCommandHandler : AsyncRequestHandler<CreateTransac
 
         await _transactionRepository.AddAsync(transaction);
         await _unitOfWork.SaveChangesAsync();
+
+        PublishQueueUserTransaction(transaction.SenderUserId, transaction.SenderAccountId, transaction);
     }
 
     private async void SenderBalanceReduction(Guid senderId, decimal balance)
@@ -66,5 +75,20 @@ public class CreateTransactionCommandHandler : AsyncRequestHandler<CreateTransac
         recipientAccount.LastActivty = DateTime.Now;
 
         _accountRepository.Update(recipientAccount);
+    }
+
+    private async void PublishQueueUserTransaction(Guid userId, Guid accountId, Transaction transaction)
+    {
+        var user = await _userRepository.GetById(userId);
+        var account = await _accountRepository.GetById(accountId);
+
+        var userTransaction = new UserTransactionDto()
+        {
+            User = _mapper.Map<User, UserDto>(user),
+            Account = _mapper.Map<Account, AccountDto>(account),
+            Transaction = _mapper.Map<Transaction, TransactionDto>(transaction)
+        };
+
+        ProducerService.Producer(userTransaction);
     }
 }
