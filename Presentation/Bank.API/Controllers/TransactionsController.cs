@@ -25,7 +25,7 @@ public class TransactionsController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<List<TransactionListDto>>> GetAllTransactions(
         [FromQuery] GetAllTransactionQuery request)
@@ -33,7 +33,7 @@ public class TransactionsController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("{Id:guid}")]
     public async Task<ActionResult<TransactionDto>> GetByIdTransaction([FromRoute] GetByIdTransactionQuery request)
     {
@@ -47,7 +47,7 @@ public class TransactionsController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{Id:guid}")]
     public async Task<ActionResult> DeleteTransaction([FromRoute] DeleteTransactionCommand request)
     {

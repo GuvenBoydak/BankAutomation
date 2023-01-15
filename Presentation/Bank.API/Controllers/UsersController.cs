@@ -22,14 +22,14 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<List<UserListDto>>> GetAllUser([FromQuery] GetAllUsersQuery request)
     {
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("{Id}")]
     public async Task<ActionResult<UserDto>> GetByIdUser([FromRoute] GetByIdUserQuery request)
     {
@@ -48,14 +48,14 @@ public class UsersController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<ActionResult> UpdateUser([FromBody] UpdateUserCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{Id:guid}")]
     public async Task<ActionResult> DeleteUser([FromRoute] DeleteUserCommand request)
     {

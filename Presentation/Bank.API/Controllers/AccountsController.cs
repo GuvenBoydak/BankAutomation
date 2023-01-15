@@ -41,14 +41,14 @@ public class AccountsController:ControllerBase
         return Ok(await _mediator.Send(request));
     }
     
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<ActionResult> UpdateAccount([FromBody] UpdateAccountCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
     
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{Id:guid}")]
     public async Task<ActionResult> DeleteAccount([FromRoute] DeleteAccountCommand request)
     {
