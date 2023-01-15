@@ -1,5 +1,6 @@
 # BankAutomation - Mini bir bankacılık operasyonu 
 #### *Projede kullanılan teknoloji ve kütüphaneler*
+- Clean Architecture
 - JWT Authentication
 - RabbitMQ
 - MsSql
