@@ -15,6 +15,5 @@ public class Account : BaseEntity
 
     //Relational property
     public User User { get; set; }
-
     public List<Transaction> Transactions { get; set; }
 }

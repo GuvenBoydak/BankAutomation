@@ -28,9 +28,9 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         return Table.Where(filter);
     }
 
-    public List<T> GetAll()
+    public async Task<List<T>> GetAllAsync()
     {
-        return Table.ToList();
+        return await Table.ToListAsync();
     }
 
     public async Task AddAsync(T entity)
@@ -41,11 +41,16 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     public async Task DeleteAsync(Guid id)
     {
         var entity = await Table.FindAsync(id);
+        if (entity == null)
+            throw new InvalidOperationException($"{nameof(entity)} Not found");
         entity.IsDeleted = true;
     }
 
     public void Update(T entity)
     {
+        var currentEntity = Table.Find(entity.Id);
+        if (currentEntity == null)
+            throw new InvalidOperationException($"{nameof(currentEntity)} Not found");
         Table.Update(entity);
     }
 }

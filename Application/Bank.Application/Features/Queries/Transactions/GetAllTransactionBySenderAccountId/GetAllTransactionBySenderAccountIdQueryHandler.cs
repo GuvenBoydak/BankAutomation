@@ -1,0 +1,31 @@
+﻿using AutoMapper;
+using Bank.Application.Features.Queries.Transactions.GetAllTransactions;
+using Bank.Application.Interfaces.Repositories;
+using Bank.Domain.Models;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace Bank.Application.Features.Queries.Transactions.GetAllTransactionBySenderAccountId;
+
+public class
+    GetAllTransactionBySenderAccountIdQueryHandler : IRequestHandler<GetAllTransactionBySenderAccountIdQuery,
+        List<TransactionListDto>>
+{
+    private readonly ITransactionRepository _transactionRepository;
+    private readonly IMapper _mapper;
+
+    public GetAllTransactionBySenderAccountIdQueryHandler(ITransactionRepository transactionRepository, IMapper mapper)
+    {
+        _transactionRepository = transactionRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<List<TransactionListDto>> Handle(GetAllTransactionBySenderAccountIdQuery request,
+        CancellationToken cancellationToken)
+    {
+        var transactions = await _transactionRepository.Where(x => x.SenderAccountId == request.SenderAccountId)
+            .ToListAsync();
+
+        return _mapper.Map<List<Transaction>, List<TransactionListDto>>(transactions);
+    }
+}

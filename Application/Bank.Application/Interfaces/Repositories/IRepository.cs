@@ -12,7 +12,7 @@ public interface IRepository<T> where  T :BaseEntity
     
     IQueryable<T> Where(Expression<Func<T,bool>> filter);
 
-    List<T> GetAll();
+    Task<List<T>> GetAllAsync();
 
     Task AddAsync(T entity);
 

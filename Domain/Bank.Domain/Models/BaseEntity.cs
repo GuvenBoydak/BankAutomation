@@ -12,5 +12,5 @@ public abstract class BaseEntity
     public Guid Id { get; }
     public DateTime CreatedDate { get; }
     public DateTime DeletedDate { get; set; }
-    public bool IsDeleted { get; }
+    public bool IsDeleted { get; set; }
 }
