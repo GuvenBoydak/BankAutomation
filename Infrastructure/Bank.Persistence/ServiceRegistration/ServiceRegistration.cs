@@ -1,4 +1,7 @@
-﻿using Bank.Persistence.Context;
+﻿using Bank.Application.Interfaces.Repositories;
+using Bank.Application.Interfaces.UnitOfWork;
+using Bank.Persistence.Context;
+using Bank.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +13,13 @@ public static class ServiceRegistration
     {
         service.AddDbContext<BankDbContext>(opt => opt.UseSqlServer(Configuration.ConnectionString));
 
+        service.AddScoped(typeof(IRepository<>),typeof(GenericRepository<>));
+        service.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        service.AddScoped<IUserRepository, UserRepository>();
+        service.AddScoped<IAccountRepository, AccountRepository>();
+        service.AddScoped<IRoleRepository, RoleRepository>();
+        service.AddScoped<ITransactionRepository, TransactionRepository>();
+        
         return service;
     }
 }

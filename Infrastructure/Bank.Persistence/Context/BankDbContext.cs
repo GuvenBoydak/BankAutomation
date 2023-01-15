@@ -21,5 +21,9 @@ public class BankDbContext : DbContext
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+        modelBuilder.Entity<Role>()
+            .HasData(new Role() { Id = Guid.NewGuid(), Name = "Admin", CreatedDate = DateTime.Now, IsDeleted = false },
+                new Role() { Id = Guid.NewGuid(), Name = "User", CreatedDate = DateTime.Now, IsDeleted = false });
     }
 }

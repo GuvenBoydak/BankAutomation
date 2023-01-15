@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using Bank.Application.Interfaces.Repositories;
 using Bank.Domain.Models;
 using Bank.Persistence.Context;
@@ -16,11 +17,11 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     }
 
     public DbSet<T> Table => _db.Set<T>();
-
-    public Task<T> GetById(Guid id)
+    
+    
+    public async Task<T> GetById(Guid id)
     {
-        var query = Table.AsQueryable();
-        return query.FirstOrDefaultAsync(x => x.Id == id);
+        return await Table.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public IQueryable<T> Where(Expression<Func<T, bool>> filter)
@@ -43,14 +44,23 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         var entity = await Table.FindAsync(id);
         if (entity == null)
             throw new InvalidOperationException($"{nameof(entity)} Not found");
+        
         entity.IsDeleted = true;
+        Update(entity);
     }
 
     public void Update(T entity)
     {
-        var currentEntity = Table.Find(entity.Id);
+        var currentEntity = Table.AsNoTracking().FirstOrDefault(x => x.Id == entity.Id);
         if (currentEntity == null)
             throw new InvalidOperationException($"{nameof(currentEntity)} Not found");
-        Table.Update(entity);
+
+        _db.Entry(currentEntity).CurrentValues.SetValues(entity);
+
+        foreach (var property in _db.Entry(entity).Properties)
+        {
+            if (property.CurrentValue != null && property.CurrentValue is not Guid)
+                _db.Entry(entity).Property(property.Metadata.Name).IsModified = true;
+        }
     }
 }

@@ -9,8 +9,8 @@ public abstract class BaseEntity
         IsDeleted = false;
     }
 
-    public Guid Id { get; }
-    public DateTime CreatedDate { get; }
-    public DateTime DeletedDate { get; set; }
+    public Guid Id { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime? DeletedDate { get; set; }
     public bool IsDeleted { get; set; }
 }

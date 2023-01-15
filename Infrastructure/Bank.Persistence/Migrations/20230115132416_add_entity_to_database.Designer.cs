@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.Persistence.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    [Migration("20230114174136_add_entity_to_database")]
+    [Migration("20230115132416_add_entity_to_database")]
     partial class addentitytodatabase
     {
         /// <inheritdoc />
@@ -41,7 +41,7 @@ namespace Bank.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DeletedDate")
+                    b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsBlocked")
@@ -72,7 +72,7 @@ namespace Bank.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DeletedDate")
+                    b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -85,6 +85,22 @@ namespace Bank.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("72d2523c-0d91-4839-8517-e695277f6499"),
+                            CreatedDate = new DateTime(2023, 1, 15, 16, 24, 16, 154, DateTimeKind.Local).AddTicks(5029),
+                            IsDeleted = false,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("c04efe36-aefe-462f-b903-9851e732c262"),
+                            CreatedDate = new DateTime(2023, 1, 15, 16, 24, 16, 154, DateTimeKind.Local).AddTicks(5033),
+                            IsDeleted = false,
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Bank.Domain.Models.Transaction", b =>
@@ -99,7 +115,7 @@ namespace Bank.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DeletedDate")
+                    b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -146,7 +162,7 @@ namespace Bank.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DeletedDate")
+                    b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")

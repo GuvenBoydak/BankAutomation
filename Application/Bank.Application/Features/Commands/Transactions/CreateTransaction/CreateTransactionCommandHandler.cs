@@ -39,6 +39,7 @@ public class CreateTransactionCommandHandler : AsyncRequestHandler<CreateTransac
             throw new InvalidOperationException("Recipient Account is Blocked");
 
         SenderBalanceReduction(request.SenderAccountId, request.Amount);
+        Thread.Sleep(1000);
         RecipientBalanceReduction(request.RecipientAccountId, request.Amount);
 
         await _transactionRepository.AddAsync(transaction);

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Bank.Persistence.Migrations
 {
     /// <inheritdoc />
@@ -18,7 +20,7 @@ namespace Bank.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -39,7 +41,7 @@ namespace Bank.Persistence.Migrations
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -64,7 +66,7 @@ namespace Bank.Persistence.Migrations
                     IsBlocked = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -92,7 +94,7 @@ namespace Bank.Persistence.Migrations
                     SenderUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RecipientrUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -110,19 +112,15 @@ namespace Bank.Persistence.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
 
-                    table.ForeignKey(
-                       name: "FK_Transactions_Accounts_SenderAccountId",
-                       column: x => x.SenderAccountId,
-                       principalTable: "Accounts",
-                       principalColumn: "Id",
-                       onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Transactions_Users_SenderUserId",
-                        column: x => x.SenderUserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "CreatedDate", "DeletedDate", "IsDeleted", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("72d2523c-0d91-4839-8517-e695277f6499"), new DateTime(2023, 1, 15, 16, 24, 16, 154, DateTimeKind.Local).AddTicks(5029), null, false, "Admin" },
+                    { new Guid("c04efe36-aefe-462f-b903-9851e732c262"), new DateTime(2023, 1, 15, 16, 24, 16, 154, DateTimeKind.Local).AddTicks(5033), null, false, "User" }
                 });
 
             migrationBuilder.CreateIndex(

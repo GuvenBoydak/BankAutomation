@@ -11,7 +11,7 @@ public class UserRepository:GenericRepository<User>,IUserRepository
     {
     }
 
-    public async Task<User> GetByEmailAsync(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
         return await Table.FirstOrDefaultAsync(x => x.Email == email);
     }

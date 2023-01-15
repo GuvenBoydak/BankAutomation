@@ -8,6 +8,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 {
     public void Configure(EntityTypeBuilder<Account> builder)
     {
+        builder.HasKey(x => x.Id);
         builder.Property(x => x.AccountNo).IsRequired();
         builder.Property(x => x.Balance).IsRequired();
     }

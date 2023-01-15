@@ -8,6 +8,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
+        builder.HasKey(x => x.Id);
         builder.Property(x => x.SenderAccontNo).IsRequired();
         builder.Property(x => x.RecipientAccoundNo).IsRequired();
         builder.Property(x => x.Amount).IsRequired();

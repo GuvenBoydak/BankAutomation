@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Bank.Application.Features.Commands.Accounts.DeleteAccount;
 
-public class DeleteAccountCommandHandler : AsyncRequestHandler<DeleteRoleCommand>
+public class DeleteAccountCommandHandler : AsyncRequestHandler<DeleteAccountCommand>
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +16,7 @@ public class DeleteAccountCommandHandler : AsyncRequestHandler<DeleteRoleCommand
         _unitOfWork = unitOfWork;
     }
 
-    protected override async Task Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+    protected override async Task Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {
         await _accountRepository.DeleteAsync(request.Id);
         await _unitOfWork.SaveChangesAsync();
