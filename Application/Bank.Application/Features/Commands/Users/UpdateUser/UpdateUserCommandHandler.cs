@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Bank.Application.Features.Commands.Users.UpdateUser;
 
-public class UpdateUserCommandHandler:AsyncRequestHandler<UpdateUserCommand>
+public class UpdateUserCommandHandler : AsyncRequestHandler<UpdateUserCommand>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
