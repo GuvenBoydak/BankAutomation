@@ -5,5 +5,5 @@ namespace Bank.Application.Features.Queries.Transactions.GetAllTransactionBySend
 
 public class GetAllTransactionBySenderAccountIdQuery:IRequest<List<TransactionListDto>>
 {
-    public Guid SenderAccountId { get; set; }
+    public Guid Id { get; set; }
 }

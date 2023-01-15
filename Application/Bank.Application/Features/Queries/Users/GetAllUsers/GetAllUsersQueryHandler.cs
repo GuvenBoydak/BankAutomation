@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Bank.Application.Features.Queries.Users.GetAllUsers;
 
-public class GetAllUsersQueryHandler : IRequestHandler<GetallUsersQuery, List<UserListDto>>
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserListDto>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetallUsersQuery, List<Us
         _mapper = mapper;
     }
 
-    public async Task<List<UserListDto>> Handle(GetallUsersQuery request, CancellationToken cancellationToken)
+    public async Task<List<UserListDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
         var users = await _userRepository.GetAllAsync();
 

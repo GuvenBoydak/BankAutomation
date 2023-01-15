@@ -2,6 +2,6 @@
 
 namespace Bank.Application.Features.Queries.Users.GetAllUsers;
 
-public class GetallUsersQuery : IRequest<List<UserListDto>>
+public class GetAllUsersQuery : IRequest<List<UserListDto>>
 {
 }

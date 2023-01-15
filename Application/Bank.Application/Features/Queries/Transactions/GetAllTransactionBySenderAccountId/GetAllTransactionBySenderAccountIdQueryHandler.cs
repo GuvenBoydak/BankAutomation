@@ -23,7 +23,7 @@ public class
     public async Task<List<TransactionListDto>> Handle(GetAllTransactionBySenderAccountIdQuery request,
         CancellationToken cancellationToken)
     {
-        var transactions = await _transactionRepository.Where(x => x.SenderAccountId == request.SenderAccountId)
+        var transactions = await _transactionRepository.Where(x => x.SenderAccountId == request.Id)
             .ToListAsync();
 
         return _mapper.Map<List<Transaction>, List<TransactionListDto>>(transactions);
